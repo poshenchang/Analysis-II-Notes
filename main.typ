@@ -1,19 +1,19 @@
-#import "@preview/mousse-notes:1.1.0": *
+#import "typst/packages/preview/mousse-notes/1.1.0/src/lib.typ": *
 #import "@preview/xarrow:0.3.1": xarrow
 
 #let smallcaps-strong = it => smallcaps(strong(it))
 #let claim = thm-env("Claim", fmt: smallcaps-strong, body-fmt: emph)
 
 // override default numbering-internal for theorem-like environments
-// #let theorem = theorem.with(numbering-internal: "(i)")
-// #let proposition = proposition.with(numbering-internal: "(i)")
-// #let lemma = lemma.with(numbering-internal: "(i)")
-// #let corollary = corollary.with(numbering-internal: "(i)")
-// #let definition = definition.with(numbering-internal: "(i)")
-// #let example = example.with(numbering-internal: "(i)")
-// #let remark = remark.with(numbering-internal: "(i)")
-// #let proof = proof.with(numbering-internal: "(i)")
-// #let claim = thm-env("Claim", fmt: smallcaps-strong, body-fmt: emph).with(numbering-internal: "(i)")
+#let theorem = theorem.with(numbering-internal: "(i)")
+#let proposition = proposition.with(numbering-internal: "(i)")
+#let lemma = lemma.with(numbering-internal: "(i)")
+#let corollary = corollary.with(numbering-internal: "(i)")
+#let definition = definition.with(numbering-internal: "(i)")
+#let example = example.with(numbering-internal: "(i)")
+#let remark = remark.with(numbering-internal: "(i)")
+#let proof = proof.with(numbering-internal: "(i)")
+#let claim = thm-env("Claim", fmt: smallcaps-strong, body-fmt: emph).with(numbering-internal: "(i)")
 
 #set page(paper: "us-letter")
 #show: book.with(
@@ -23,9 +23,7 @@
   font-style: "serif",
 )
 
-#set heading(numbering: "1.1.1")
-
-// #set enum(numbering: "(i)")
+#set enum(numbering: "(i)")
 
 #let varinjlim = math.accent(math.lim, sym.arrow.r.long)
 #let iff = math.arrow.l.r.double.long
