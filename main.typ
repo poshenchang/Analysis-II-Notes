@@ -16,13 +16,14 @@
 #let claim = thm-env("Claim", fmt: smallcaps-strong, body-fmt: emph).with(numbering-internal: "(i)")
 
 #set page(paper: "us-letter")
-#set heading(numbering: "1.1")
 #show: book.with(
   title: [Analysis II],
   subtitle: [Lecture Notes],
   author: "Poshen Chang",
   font-style: "serif",
 )
+
+#set heading(numbering: "1.1")
 
 #set enum(numbering: "(i)")
 
