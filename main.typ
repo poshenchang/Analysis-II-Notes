@@ -1,4 +1,4 @@
-#import "@preview/mousse-notes:1.1.0": *
+#import "typst/packages/preview/mousse-notes/1.1.0/src/lib.typ": *
 #import "@preview/xarrow:0.3.1": xarrow
 
 #let smallcaps-strong = it => smallcaps(strong(it))
@@ -22,8 +22,6 @@
   author: "Poshen Chang",
   font-style: "serif",
 )
-
-#set heading(numbering: "1.1.1")
 
 #set enum(numbering: "(i)")
 
