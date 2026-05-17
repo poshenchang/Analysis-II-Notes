@@ -23,7 +23,7 @@
   font-style: "serif",
 )
 
-#set heading(numbering: "1.1")
+#set heading(numbering: "1.1.1")
 
 #set enum(numbering: "(i)")
 
