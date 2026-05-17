@@ -20,6 +20,8 @@ jobs:
       # Sets up the Typst CLI
       - name: Setup Typst
         uses: typst-community/setup-typst@v3
+        with:
+          typst-version: '0.14.2'
 
       # Compiles your main.typ file into main.pdf
       - name: Compile Typst template
