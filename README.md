@@ -11,3 +11,7 @@ typst compile main.typ
 ```
 
 This will generate a `main.pdf` file containing the compiled notes.
+
+## References
+
+1. Stein, E. M., & Shakarchi, R. (2005). Real analysis: Measure theory, integration, and Hilbert spaces. Princeton University Press.
