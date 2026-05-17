@@ -1,0 +1,44 @@
+name: Build and Release PDF
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch: # Allows you to manually trigger the build from the GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Needed to create releases
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Sets up the Typst CLI
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v3
+
+      # Compiles your main.typ file into main.pdf
+      - name: Compile Typst template
+        run: typst compile main.typ
+      
+      # Uploads the PDF as an artifact (downloadable from the Actions tab)
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Analysis-II-Notes
+          path: main.pdf
+
+      # Automatically creates/updates a "latest" release with the PDF
+      - name: Create or Update "Latest" Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Latest Notes"
+          files: |
+            main.pdf
