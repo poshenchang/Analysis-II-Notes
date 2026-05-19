@@ -4262,3 +4262,228 @@ Banach fixed point theorem also tells us that starting from any nonempty compact
     $
     If additionally, all the $phi_k$ are injective and $phi_i(K) inter phi_j(K) = emptyset$ for all $i != j$, then the above inequality is an equality. If all $p_i > 0$, then the support of $mu$ is $K$.
 ]
+#proof[
+    Let $cal(M)$ be the set of all Borel probability measure on $K$. Define the map $Phi: cal(M) -> cal(M)$ by
+    $
+    Phi(nu) = sum_(k=1)^n p_k dot nu compose phi_k^(-1).
+    $
+    Define
+    $
+    cal(D)(nu_1, nu_2) = sup {|integral f d nu_1 - integral f d nu_2| : f: K -> RR "is 1-Lipschitz"}, 
+    $
+    then $cal(D)$ is a metric on $cal(M)$ and $(cal(M), cal(D))$ is complete. Note that
+    $
+    integral g thin d Phi(nu) = sum_(k=1)^n p_k dot integral g thin d (nu compose phi_k^(-1)) = sum_(k=1)^n p_k dot integral g compose phi_k d nu, 
+    $
+    and also since
+    $
+    |g compose phi_k(x) - g compose phi_k(y)| <= d(phi_k(x), phi_k(y)) <= c dot d(x, y)
+    $
+    so $c^(-1) dot g compose phi_k$ is a 1-Lipschitz function, hence
+    $
+    & cal(D)(Phi(nu_1), Phi(nu_2)) \
+    =& sup {abs(integral g d Phi(nu_1) - integral g d Phi(nu_2)) : g "is 1-Lipschitz"} \
+    =& sup {abs(sum_(k=1)^n p_k dot (integral g compose phi_k d nu_1 - integral g compose phi_k d nu_2)) : g "is 1-Lipschitz"} \
+    <=& sum_(k=1)^n p_k dot sup {abs(integral g compose phi_k d nu_1 - integral g compose phi_k d nu_2) : g "is 1-Lipschitz"} \
+    =& c dot sum_(k=1)^n p_k dot sup {abs(integral c^(-1) dot g compose phi_k d nu_1 - integral c^(-1) dot g compose phi_k d nu_2) : g "is 1-Lipschitz"} \
+    <=& c dot sum_(k=1)^n p_k dot cal(D)(nu_1, nu_2) = c dot cal(D)(nu_1, nu_2),
+    $
+    so $Phi$ is a contraction on $(cal(M), cal(D))$. By Banach fixed point theorem, there exists a unique $mu in cal(M)$ such that $Phi(mu) = mu$, i.e. $mu$ is the self-similar measure associated to $p$ and $phi$.
+
+    Let $(y_k) in sum_n$, then
+    $
+    mu(phi_(y_1) compose dots.c compose phi_(y_k)(K)) &= sum_(i=1)^n p_i dot mu(phi_i^(-1) compose phi_(y_1) compose dots.c compose phi_(y_k)(K)) \
+    &>= p_(y_1) dot mu(phi_(y_2) compose dots.c compose phi_(y_k)(K)) >= dots.c >= product_(i=1)^k p_(y_i).
+    $
+    If all the $phi_k$ are injective and their images are disjoint, then since the total measure of $K$ is $1$, we must have equality in the above inequality. If all $p_i > 0$, then $mu(phi_(y_1) compose dots.c compose phi_(y_k)(K)) > 0$ for every $(y_k) in sum_n$. Let $cal(U) subset.eq X$ be open and $K inter cal(U) != emptyset$, then $cal(U)$ must contain some $phi_(y_1) compose dots.c compose phi_(y_k)(K)$ for sufficiently large $k$, so $mu(cal(U)) > 0$. Since every open set intersecting $K$ has positive $mu$-measure, the support of $mu$ is $K$.
+    $qed$
+]
+
+== Dimensions
+
+For a $n$-dimensional cube with side length $1$, observe that it consists of $2^n$ smaller cubes of side length $1/2$. More generally, this notion of dimension can be extended to self-similar sets. For example, the middle-thirds Cantor set consists of two copies of itself scaled down by a factor of $1/3$, so we can think of it as a "fractal" with dimension $log_3(2)$. The Sierpinski triangle consists of three copies of itself scaled down by a factor of $1/2$, so we can think of it as a "fractal" with dimension $log_2(3)$.
+
+However, the above definition of dimension only applies to self-similar sets with certain properties. To define a more general notion of dimension that applies to arbitrary subsets of $RR^d$, we need to use the concept of Hausdorff measure.
+
+=== Minkowski Dimension
+
+Suppose that $E$ is a bounded metric space with metric $d$. For $epsilon > 0$, define
+$
+M(E, epsilon) = min {k : exists x_1, dots, x_k in 
+E "such that" E subset.eq union.big_(i=1)^k B(x_i, epsilon)}.
+$
+
+#definition[
+    Let $E$ be a bounded metric space. The lower and upper Minkowski dimensions of $E$ are defined by
+    $
+    underline(dim)_M (E) = liminf_(epsilon -> 0) (log M(E, epsilon)) / (-log epsilon),  quad  overline(dim)_M (E) = limsup_(epsilon -> 0) (log M(E, epsilon)) / (-log epsilon).
+    $
+    If the lower and upper dimensions coincide, we define the Minkowski dimension of $E$ to be their common value, denoted by $dim_M (E)$.
+]
+
+#proposition[
+    The Minkowski dimension of the middle-thirds Cantor set is $log_3(2)$.
+]
+#proof[
+    To upper bound the Minkowski dimension of $C$, we only need to find an efficient cover of $C$. Let $epsilon in (0, 1)$, and choose $n$ such that $3^(-n) < epsilon <= 3^(-(n-1))$. Consider the sets
+    $
+    [sum_(i=1)^n x_i / 3^i, sum_(i=1)^n x_i / 3^i + epsilon] quad "for" (x_1, dots, x_n) in {0, 2}^n,
+    $
+    then these $2^n$ sets cover $C$, so
+    $
+    M(C, epsilon) <= 2^n = 3^(n log_3(2)) < 3^(log_3(2) - log_3(epsilon)) = epsilon^(-log_3(2)),
+    $
+    hence $overline(dim)_M (C) <= log_3(2)$.
+
+    For the lower bound, assume that we have a cover by open balls $B(x_k, epsilon)$ where $epsilon in (0, 1)$. Let $n$ be the integer such that $3^(-(n+1)) <= epsilon < 3^(-n)$. Write
+    $
+    x_k = sum_(i=1)^oo x_(i, k) / 3^i
+    $
+    for the ternary expansion of $x_k$. Note that
+    $
+    B(x_k, epsilon) inter C subset.eq {sum_(i=1)^n x_(i, k) / 3^i + sum_(i=n+1)^oo y_i / 3^i : y_i in {0, 2} "for every" i}
+    $
+    for every $k$, so we need at least $2^n$ such balls to cover $C$, hence
+    $
+    M(C, epsilon) >= 2^n = 3^(n log_3(2)) = 3^(-log_3(2)) dot 3^((n+1) log_3(2)) >= 3^(-log_3(2)) dot epsilon^(-log_3(2)),
+    $
+    so $underline(dim)_M (C) >= log_3(2)$.
+    $qed$
+]
+
+However, the Minkowski dimension has some drawbacks. For example, it is not stable under countable unions. 
+
+#proposition[
+    Let $E = {1/n : n in NN} union {0} subset.eq RR$, then $dim_M (E) = 1/2$. 
+]
+#proof[
+    Let $epsilon in (0, 1)$. Choose $n$ such that $1/(n+1)^2 <= epsilon < 1/n^2$. The tail ${1/k: k > n} union {0}$ can be covered by $n+1$ balls of radius $epsilon$ since $(n+1)epsilon >= 1/(n+1)$, and the remaining $n$ points can be covered by $n$ balls of radius $epsilon$, so
+    $
+    M(E, epsilon) <= 2n + 1 <= (2n + 1)/n dot epsilon^(-1/2), 
+    $
+    hence $overline(dim)_M (E) <= 1/2$. On the other hand, the distance between two neighboring points is
+    $
+    1/k - 1/(k+1) = 1/(k(k+1)) >= 1/(k+1)^2, 
+    $
+    so we need at least $n$ balls of radius $epsilon$ to cover the $n$ points $1, 1/2, dots, 1/n$, hence
+    $
+    M(E, epsilon) >= n >= n/(n+1) dot epsilon^(-1/2),
+    $
+    so $underline(dim)_M (E) >= 1/2$.
+    $qed$
+]
+
+Define
+$
+M^s (E) = inf {k epsilon^s : B(x_1, epsilon), dots , B(x_k, epsilon) "is a cover of" E},
+$
+
+#proposition[
+    $
+    underline(dim)_M (E) = inf {s >= 0 : M^s(E) = 0} = sup {s >= 0 : M^s(E) > 0}.
+    $
+]
+#proof[
+    Suppose that $underline(dim)_M (E) < s$, then for all $eta in (underline(dim)_M (E), s)$, exists arbitrarily small $epsilon > 0$ and a cover by $k$ balls of radius $epsilon$ with $k <= epsilon^(-eta)$. Hence
+    $
+    M^s (E) <= k epsilon^s <= epsilon^(s - eta) -> 0
+    $
+    as $epsilon -> 0$, so $M^s (E) = 0$. 
+
+    On the other hand, if $underline(dim)_M (E) > s$, then for all $eta in (s, underline(dim)_M (E))$ and all sufficiently small $epsilon$, every cover of balls of radius $epsilon$ has at least $k >= epsilon^(-eta)$ balls, so
+    $
+    M^s (E) >= k epsilon^s >= epsilon^(s - eta) -> oo
+    $
+    as $epsilon -> 0$, so $M^s (E) = oo$. 
+
+    If $underline(dim)_M (E) = t$, then $M^s (E) = 0$ for all $s > t$ and $M^s (E) = oo$ for all $s < t$, so the above equalities hold.
+    $qed$
+]
+
+=== Hausdorff Dimension
+
+We extend the definition of Minkowski dimension by allowing more general covers, specifically, balls of varying radii.
+
+Let $B(x_k, r_k)$ be a cover of $E$ by open balls, then we define the $s$-value of the cover by $sum_k r_k^s$. 
+
+#definition[
+    For every $alpha >= 0$, the (spherical) $alpha$-Hausdorff content of a metric space $E$ is defined by
+    $
+    cal(S)^alpha (E) = inf {sum_k r_k^alpha : B(x_k, r_k) "is a cover of" E}.
+    $
+]
+
+#definition[
+    For a metric space $E$, define the Hausdorff dimension of $E$ by
+    $
+    dim_H (E) = inf {alpha >= 0 : cal(S)^alpha (E) = 0} = sup {alpha >= 0 : cal(S)^alpha (E) > 0}.
+    $
+]
+
+From the definition, we can see that the Hausdorff dimension of a set is always less than or equal to its Minkowski dimension. 
+
+#lemma[
+    Hausdorff dimension is stable under countable unions, i.e. for every sequence of sets $(E_n)$, we have
+    $
+    dim_H (union.big_(n=1)^oo E_n) = sup_(n >= 1) dim_H (E_n).
+    $
+]
+#proof[
+    Clearly Hausdorff dimension is monotone, so
+    $
+    dim_H (union.big_(n=1)^oo E_n) >= sup_(n >= 1) dim_H (E_n).
+    $
+    
+    For $alpha >= 0$, 
+    $
+    cal(S)^alpha (union.big_(n=1)^oo E_n) &<= inf {sum_(k=1)^oo sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} \
+    &= sum_(k=1)^oo inf {sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} = sum_(k=1)^oo cal(S)^alpha (E_k),
+    $
+    hence
+    $
+    dim_H (union.big_(n=1)^oo E_n) &= sup {alpha >= 0 : cal(S)^alpha (union.big_(n=1)^oo E_n) > 0} \
+    &<= sup {alpha >= 0 : sum_(k=1)^oo cal(S)^alpha (E_k) > 0} \
+    &= sup_(n >= 1) sup {alpha >= 0 : cal(S)^alpha (E_n) > 0} \
+    &= sup_(n >= 1) dim_H (E_n). 
+    $
+]
+
+#definition[
+    Let $X$ be a metric space and $E subset.eq X$. For each $alpha >= 0$ and $delta > 0$, we define
+    $
+    cal(H)^alpha_delta (E) = inf {sum_(k=1)^oo "diam"(F_k)^alpha : E subset.eq union.big_(k=1)^oo F_k "and" "diam"(F_k) <= delta},
+    $
+    and the outer $alpha$-Hausdorff measure of $E$ by
+    $
+    cal(H)_*^alpha (E) = sup_(delta > 0) cal(H)^alpha_delta (E) = lim_(delta -> 0) cal(H)^alpha_delta (E) in [0, oo]. 
+    $
+]
+
+Clearly $cal(H)_*^alpha$ is monotone and countably subadditive. 
+
+#proposition[
+    For $E_1, E_2 subset.eq X$, if $d(E_1, E_2) > 0$, then
+    $
+    cal(H)_*^alpha (E_1 union E_2) = cal(H)_*^alpha (E_1) + cal(H)_*^alpha (E_2).
+    $
+]
+#proof[
+    It suffices to show that $cal(H)_*^alpha (E_1 union E_2) >= cal(H)_*^alpha (E_1) + cal(H)_*^alpha (E_2)$, since the opposite inequality follows from subadditivity. Let $epsilon in (0, d(E_1, E_2))$. Let $delta in (0, epsilon)$, and let $F_k$ be a cover of $E_1 union E_2$ with $"diam"(F_k) <= delta$ for every $k$. Set $F_k' = F_k inter E_1$ and $F_k'' = F_k inter E_2$, then $(F_k')_{k=1}^oo$ is a cover of $E_1$ and $(F_k'')_{k=1}^oo$ is a cover of $E_2$. Moreover, the sets $F_k'$ and $F_k''$ are disjoint since $d(E_1, E_2) > epsilon > delta >= "diam"(F_k)$ for every $k$, so
+    $
+    sum_(k=1)^oo "diam"(F_k)^alpha >= sum_(k=1)^oo "diam"(F_k')^alpha + sum_(k=1)^oo "diam"(F_k'')^alpha. 
+    $
+    Taking infimum over all such covers and letting $delta -> 0$, we have
+    $
+    cal(H)_*^alpha (E_1 union E_2) >= cal(H)_*^alpha (E_1) + cal(H)_*^alpha (E_2).
+    $
+]
+
+The above implies that $cal(H)_*^alpha$ is countably additive on Borel sets, hence defines a Borel measure on $X$. Write $cal(H)^alpha(E) = cal(H)_*^alpha (E)$ when $E$ is a Borel set, then $cal(H)^alpha$ is called the $alpha$-dimensional Hausdorff measure on $X$.
+
+#proposition[
+    - $cal(H)^alpha (E + h) = cal(H)^alpha (E)$ for every $E subset.eq RR^d$ and $h in RR^d$.
+    - $cal(H)^alpha (O E) = cal(H)^alpha (E)$ for every $E subset.eq RR^d$ and orthogonal transformation $O$ on $RR^d$.
+    - $cal(H)^alpha (lambda E) = lambda^alpha cal(H)^alpha (E)$ for every $E subset.eq RR^d$ and $lambda > 0$.
+    - $cal(H)^0 (E)$ is the counting measure on $X$. 
+    - $cal(H)^1 (RR)$ is the Lebesgue measure on $RR$.
+]
