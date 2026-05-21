@@ -4409,14 +4409,14 @@ Let $B(x_k, r_k)$ be a cover of $E$ by open balls, then we define the $s$-value 
 #definition[
     For every $alpha >= 0$, the (spherical) $alpha$-Hausdorff content of a metric space $E$ is defined by
     $
-    cal(S)^alpha (E) = inf {sum_k r_k^alpha : B(x_k, r_k) "is a cover of" E}.
+    cal(C)^alpha (E) = inf {sum_k r_k^alpha : B(x_k, r_k) "is a cover of" E}.
     $
 ]
 
 #definition[
     For a metric space $E$, define the Hausdorff dimension of $E$ by
     $
-    dim_H (E) = inf {alpha >= 0 : cal(S)^alpha (E) = 0} = sup {alpha >= 0 : cal(S)^alpha (E) > 0}.
+    dim_H (E) = inf {alpha >= 0 : cal(C)^alpha (E) = 0} = sup {alpha >= 0 : cal(C)^alpha (E) > 0}.
     $
 ]
 
@@ -4436,16 +4436,17 @@ From the definition, we can see that the Hausdorff dimension of a set is always 
     
     For $alpha >= 0$, 
     $
-    cal(S)^alpha (union.big_(n=1)^oo E_n) &<= inf {sum_(k=1)^oo sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} \
-    &= sum_(k=1)^oo inf {sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} = sum_(k=1)^oo cal(S)^alpha (E_k),
+    cal(C)^alpha (union.big_(n=1)^oo E_n) &<= inf {sum_(k=1)^oo sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} \
+    &= sum_(k=1)^oo inf {sum_j r_(j, k)^alpha : B(x_(j, k), r_(j, k)) "is a cover of" E_k} = sum_(k=1)^oo cal(C)^alpha (E_k),
     $
     hence
     $
-    dim_H (union.big_(n=1)^oo E_n) &= sup {alpha >= 0 : cal(S)^alpha (union.big_(n=1)^oo E_n) > 0} \
-    &<= sup {alpha >= 0 : sum_(k=1)^oo cal(S)^alpha (E_k) > 0} \
-    &= sup_(n >= 1) sup {alpha >= 0 : cal(S)^alpha (E_n) > 0} \
+    dim_H (union.big_(n=1)^oo E_n) &= sup {alpha >= 0 : cal(C)^alpha (union.big_(n=1)^oo E_n) > 0} \
+    &<= sup {alpha >= 0 : sum_(k=1)^oo cal(C)^alpha (E_k) > 0} \
+    &= sup_(n >= 1) sup {alpha >= 0 : cal(C)^alpha (E_n) > 0} \
     &= sup_(n >= 1) dim_H (E_n). 
     $
+    $qed$
 ]
 
 #definition[
@@ -4476,6 +4477,7 @@ Clearly $cal(H)_*^alpha$ is monotone and countably subadditive.
     $
     cal(H)_*^alpha (E_1 union E_2) >= cal(H)_*^alpha (E_1) + cal(H)_*^alpha (E_2).
     $
+    $qed$
 ]
 
 The above implies that $cal(H)_*^alpha$ is countably additive on Borel sets, hence defines a Borel measure on $X$. Write $cal(H)^alpha(E) = cal(H)_*^alpha (E)$ when $E$ is a Borel set, then $cal(H)^alpha$ is called the $alpha$-dimensional Hausdorff measure on $X$.
@@ -4486,4 +4488,173 @@ The above implies that $cal(H)_*^alpha$ is countably additive on Borel sets, hen
     - $cal(H)^alpha (lambda E) = lambda^alpha cal(H)^alpha (E)$ for every $E subset.eq RR^d$ and $lambda > 0$.
     - $cal(H)^0 (E)$ is the counting measure on $X$. 
     - $cal(H)^1 (RR)$ is the Lebesgue measure on $RR$.
+    - If $alpha$ is an integer and if $E$ is an embedded $alpha$-dimensional submanifold, then $cal(H)^alpha (E)$ equals the $alpha$-dimensional volume of $E$ up to a constant factor. 
+]
+
+#proposition[
+    If $cal(H)^alpha (E) < oo$ for some $alpha >= 0$, then $cal(H)^beta (E) = 0$ for every $beta > alpha$. If $cal(H)^alpha (E) > 0$ for some $alpha >= 0$, then $cal(H)^beta (E) = oo$ for every $beta < alpha$.
+]
+#proof[
+    Suppose that $cal(H)^alpha (E) < oo$ for some $alpha >= 0$. Let $beta > alpha$. If $"diam"(F) <= delta$, then
+    $
+    "diam"(F)^beta = "diam"(F)^(beta - alpha) dot "diam"(F)^alpha <= delta^(beta - alpha) dot "diam"(F)^alpha,
+    $
+    so
+    $
+    cal(H)^beta_delta (E) <= delta^(beta - alpha) dot cal(H)^alpha_delta (E) <= delta^(beta - alpha) dot cal(H)^alpha (E). 
+    $
+    Letting $delta -> 0$, we have $cal(H)^beta (E) = 0$.
+
+    The second statement is just the contrapositive of the first statement, so we are done.
+    $qed$
+]
+
+#proposition[
+    If $E$ is a metric space, then
+    $
+    dim_H (E) &= inf {alpha >= 0 : cal(H)^alpha (E) = 0} = inf {alpha >= 0 : cal(H)^alpha (E) < oo} \
+    &= sup {alpha >= 0 : cal(H)^alpha (E) > 0} = sup {alpha >= 0 : cal(H)^alpha (E) = oo}.
+    $
+]
+#proof[
+    By the previous proposition, we only need to prove the first equality. Suppose that $dim_H (E) = sup {alpha >= 0 : cal(C)^alpha (E) > 0} > alpha$, then for all $beta <= alpha$, we have $cal(C)^beta (E) > 0$, hence
+    $
+    cal(H)^beta_delta (E) >= cal(C)^beta (E) > 0
+    $
+    for every $delta > 0$, so $cal(H)^beta (E) >= cal(C)^beta (E) > 0$ for every $beta <= alpha$, hence $inf {alpha >= 0 : cal(H)^alpha (E) = 0} >= alpha$. On the other hand, suppose that $dim_H (E) = inf {alpha >= 0 : cal(H)^alpha (E) = 0} < alpha$, then $cal(C)^alpha (E) = 0$. For all $delta > 0$, exists a cover of $E$ by sets $E_1, E_2, dots$ with $sum_k "diam"(E_k)^alpha < delta$, so $"diam"(E_k) < delta^(1/alpha)$ for every $k$, hence $cal(H)^alpha_(delta^(1/alpha)) (E) <= delta$
+    for every $delta > 0$. Taking $delta -> 0$, we have $cal(H)^alpha (E) = 0$, so $inf {alpha >= 0 : cal(H)^alpha (E) = 0} <= alpha$.
+    $qed$
+]
+
+=== Packing Dimension
+
+For a metric space $E$, we define
+$
+dim_P (E) = inf {sup_(n >= 1) overline(dim)_M (E_n) : E = union.big_(n=1)^oo E_n "and each" E_n "is bounded"}.
+$
+If $E$ is bounded, then we can just take $E_1 = E$ and $E_n = emptyset$ for $n > 1$, so $dim_P (E) <= overline(dim)_M (E)$. 
+
+#proposition[
+    For every metric space $E$, we have
+    $
+    dim_P (E) >= dim_H (E).
+    $
+]
+#proof[
+    For each decomposition $E = union.big_(n=1)^oo E_n$ with each $E_n$ bounded, we have
+    $
+    sup_(n >= 1) overline(dim)_M (E_n) >= sup_(n >= 1) dim_H (E_n) = dim_H (E),
+    $
+    where the last equality follows from the countable stability of Hausdorff dimension. Taking infimum over all such decompositions, we have $dim_P (E) >= dim_H (E)$.
+    $qed$
+]
+
+#definition[
+    For all $delta > 0$, a $delta$-packing of $A subset.eq E$ is a countable collection of disjoint balls $B(x_k, r_k)$ with $x_k in A$ and $r_k <= delta$ for every $k$. For $s >= 0$, we define the $s$-value of the packing by $sum_k r_k^s$. The $alpha$-packing number of $A$ is defined by
+    $
+    P^alpha (A) = lim_(delta -> 0) P^alpha_delta (A), 
+    $
+    where
+    $
+    P^alpha_delta (A) = sup {sum_k r_k^alpha : B(x_k, r_k) "is a "delta"-packing of" A}.
+    $
+]
+
+Since $P^alpha$ is not a measure, we modify it to obtain the packing measure
+$
+cal(P)^alpha (A) = inf {sum_k P^alpha (A_k) : A = union.big_(k=1)^oo A_k}.
+$
+
+#theorem[
+    For every metric space $E$, we have
+    $
+    dim_P (E) &= inf {alpha >= 0 : cal(P)^alpha (E) = 0} = inf {alpha >= 0 : cal(P)^alpha (E) < oo} \
+    &= sup {alpha >= 0 : cal(P)^alpha (E) > 0} = sup {alpha >= 0 : cal(P)^alpha (E) = oo}.
+    $
+]
+#proof[
+    Again, we only show the first equality. Recall that
+    $
+    M(E, epsilon) = min {k : exists x_1, dots, x_k in E "such that" E subset.eq union.big_(i=1)^k B(x_i, epsilon)}.
+    $
+    Analogously, for each $A subset E$, define
+    $
+    P(A, epsilon) = max {k : exists x_1, dots, x_k in A "such that" B(x_i, epsilon) "are disjoint for every" i}.
+    $
+    We claim that
+    $
+    P(A, 4epsilon) <= M(A, 2epsilon) <= P(A, epsilon).
+    $
+    If $k = P(A, epsilon)$, then there exist $x_1, dots, x_k in A$ such that $B(x_i, epsilon)$ are disjoint for every $i$. Suppose that $exists x in A$ such that $x in.not union.big_(i=1)^k B(x_i, 2epsilon)$, then $d(x, x_i) > 2epsilon$ for every $i$, so $B(x, epsilon)$ is disjoint from every $B(x_i, epsilon)$, contradicting the maximality of $k$. Hence $A subset.eq union.big_(i=1)^k B(x_i, 2epsilon)$, so $M(A, 2epsilon) <= k = P(A, epsilon)$.
+
+    For the other inequality, let $m = M(A, 2epsilon)$ and $k = P(A, 4epsilon)$. Choose $x_1, dots, x_m in A$ and $y_1, dots, y_k in A$ such that $A subset.eq union.big_(i=1)^m B(x_i, 2epsilon)$ and $B(y_j, 4epsilon)$ are disjoint for every $j$. Each $y_j$ belongs to some $B(x_i, 2epsilon)$, but since $d(y_j, y_{j'}) > 4epsilon$ for every $j != j'$, each $B(x_i, 2epsilon)$ can contain at most one $y_j$, so $k <= m$.
+    
+    Suppose that $inf {alpha >= 0 : cal(P)^alpha (E) = 0} < beta$, then $exists alpha < beta$ and $E = union.big_(n=1)^oo A_n$ such that $P^alpha (A_n) < 1$ for every $n$. Note that
+    $
+    P_epsilon^alpha (A_i) >= P(A_i, epsilon) dot epsilon^alpha
+    $
+    for all $epsilon > 0$, so
+    $
+    lim_(epsilon -> 0) M(A_i, epsilon) dot epsilon^alpha <= lim_(epsilon -> 0) P(A_i, epsilon/2) dot epsilon^alpha <= 2^alpha dot P^alpha (A_i) < 2^alpha < oo
+    $
+    hence
+    $
+    overline(dim)_M (A_i) = limsup_(epsilon -> 0) (log M(A_i, epsilon)) / (-log epsilon) <= alpha < beta, 
+    $
+    so $dim_P (E) <= overline(dim)_M (A_i) < beta$.
+
+    For the other side, let
+    $
+    0 < alpha < beta < inf {gamma: cal(P)^gamma (E) = 0}.
+    $
+    Let $A_i subset.eq E$ be bounded with $E = union.big_(i=1)^oo A_i$. It suffices to show that $overline(dim)_M (A_i) >= alpha$ for some $i$. 
+
+    Just like in Hausdorff dimension, we can show that $cal(P)^beta (E) > 0$, so $sum_i P^beta (A_i) = cal(P)^beta (E) > 0$, hence $P^beta (A_i) > 0$ for some $i$. Pick some $s in (0, P^beta (A_i))$ such that $P^beta_delta (A_i) > s$ for all sufficiently small $delta$. For each such $delta$, there exists a $delta$-packing of $A_i$ by balls $B(x_i, r_i)$ with $sum_i r_i^beta >= s$. For each $m$, let $k_m$ be the number of indices $i$ such that $r_i in (2^(-m-1), 2^(-m)]$, then
+    $
+    sum_(m=0)^oo k_m dot 2^(-m beta) >= sum_i r_i^beta >= s. 
+    $
+    Note that
+    $
+    sum_(m=0)^oo 2^(m alpha) (1 - 2^(alpha - beta)) 2^(-m beta) = 1, 
+    $
+    so there must exist some $N$ such that $k_N >= 2^(N alpha) (1 - 2^(alpha - beta)) s$. Since $r_j <= delta$ for all $j$, we have $2^(-N-1) < delta$. Moreover, 
+    $
+    sup_(0 <= epsilon <= delta) P(A_i, epsilon) epsilon^alpha &>= P(A_i, 2^(-N-1)) dot 2^(-(N+1) alpha) \
+    &>= k_N dot 2^(-(N+1) alpha) >= 2^(-alpha) (1 - 2^(alpha - beta)) s > 0. 
+    $
+    Letting $delta -> 0$, we have
+    $
+    limsup_(delta -> 0) M(A_i, epsilon) dot epsilon^alpha >= limsup_(delta -> 0) P(A_i, epsilon/2) dot epsilon^alpha > 0,
+    $
+    so $overline(dim)_M (A_i) >= alpha$.
+    $qed$
+]
+
+=== Mass Distribution Principle
+
+A Borel measure $mu$ on a metric space $E$ is called a mass distribution on $E$ if $0 < mu(E) < oo$.
+
+#theorem(name: "Mass distribution principle")[
+    Suppose that $E$ is a metric space and $alpha >= 0$. If there exists a mass distribution $mu$ on $E$ and constants $C, delta > 0$ such that
+    $
+    mu(cal(U)) <= C dot "diam"(cal(U))^alpha
+    $
+    for all closed $cal(U)$ with $0 < "diam"(cal(U)) <= delta$, then
+    $
+    cal(H)^alpha (E) >= mu(E) / C > 0,
+    $
+    hence $dim_H (E) >= alpha$.
+]
+#proof[
+    Suppose that $(cal(U_i))$ is a cover of $E$ with $"diam"(cal(U_i)) <= delta$ for all $i$. Set $V_i = overline(cal(U_i))$, then $V_i$ is closed and $"diam"(V_i) = "diam"(cal(U_i)) <= delta$. Moreover, $E subset.eq union.big_i V_i$, so
+    $
+    0 < mu(E) <= sum_i mu(V_i) <= C dot sum_i "diam"(V_i)^alpha = C dot sum_i "diam"(cal(U_i))^alpha.
+    $
+    Taking infimum over all such covers, we have $cal(H)^alpha (E) >= cal(H)^alpha_delta (E) >= mu(E) / C > 0$.
+    $qed$
+]
+
+#remark[
+    - The mass distribution principle is a powerful tool for proving lower bounds on the Hausdorff dimension of a set in combination with self-similar measures. 
+    - The converse of the mass distribution principle is called the Frostman's lemma: Suppose that $E$ is a complete separable metric space and $cal(H)^alpha (E) > 0$, then there exists a mass distribution $mu$ on $E$ such that $mu(B) <= "diam"(B)^alpha$ for every bounded Borel set $B subset.eq E$. The difficulty of this lemma is that if $cal(H)^alpha (E) = oo$, then we need to find some subset $A$ with $0 < cal(H)^alpha (A) < oo$ and construct the measure on $A$ instead of $E$.
 ]
