@@ -4251,7 +4251,7 @@ Banach fixed point theorem also tells us that starting from any nonempty compact
     A vector $(p_1, dots, p_n) in RR^n$ is called a probability vector if its entries are nonnegative and $sum_(i=1)^n p_i = 1$.
 ]
 
-#theorem[
+#theorem(id: "thm:self_similar_measures")[
     Let $phi = (phi_1, dots, phi_n)$ be an IFS on a nonempty closed subset $X subset.eq RR^d$ with attractor $K subset.eq X$. Let $p = (p_1, dots, p_n)$ be a probability vector. Then there exists a unique Borel probability measure $mu$ on $K$ such that
     $
     mu = sum_(k=1)^n p_k dot mu compose phi_k^(-1).
@@ -4630,11 +4630,11 @@ $
     $qed$
 ]
 
-=== Mass Distribution Principle
+=== Hausdorff Dimension of Self-similar Sets
 
 A Borel measure $mu$ on a metric space $E$ is called a mass distribution on $E$ if $0 < mu(E) < oo$.
 
-#theorem(name: "Mass distribution principle")[
+#theorem(id: "thm:mass_distribution", name: "Mass distribution principle")[
     Suppose that $E$ is a metric space and $alpha >= 0$. If there exists a mass distribution $mu$ on $E$ and constants $C, delta > 0$ such that
     $
     mu(cal(U)) <= C dot "diam"(cal(U))^alpha
@@ -4657,4 +4657,250 @@ A Borel measure $mu$ on a metric space $E$ is called a mass distribution on $E$ 
 #remark[
     - The mass distribution principle is a powerful tool for proving lower bounds on the Hausdorff dimension of a set in combination with self-similar measures. 
     - The converse of the mass distribution principle is called the Frostman's lemma: Suppose that $E$ is a complete separable metric space and $cal(H)^alpha (E) > 0$, then there exists a mass distribution $mu$ on $E$ such that $mu(B) <= "diam"(B)^alpha$ for every bounded Borel set $B subset.eq E$. The difficulty of this lemma is that if $cal(H)^alpha (E) = oo$, then we need to find some subset $A$ with $0 < cal(H)^alpha (A) < oo$ and construct the measure on $A$ instead of $E$.
+]
+
+#proposition[
+    Let $(phi_1, dots, phi_n)$ be an IFS on a nonempty closed subset $X subset.eq RR^d$ with contraction ratios $(c_1, dots, c_n)$. Then $exists ! alpha >= 0$ such that
+    $
+    sum_(i=1)^n c_i^alpha = 1.
+    $
+    If $K$ is the attractor of the IFS, then $cal(H)^alpha (K) < "diam"(K)^alpha$, hence $dim_H (K) <= alpha$. 
+]
+#proof[
+    The function $f: [0, oo) -> RR$ defined by $f(x) = sum_(i=1)^n c_i^x$ is continuous and strictly decreasing, with $f(0) = n > 1$ and $lim_(x -> oo) f(x) = 0$, so there exists a unique $alpha >= 0$ such that $f(alpha) = 1$. Recall that
+    $
+    K = union.big_(i=1)^n phi_i(K),
+    $
+    so by induction, 
+    $
+    K = union.big_((x_1, dots, x_k) in {1, dots, n}^k) phi_(x_1) compose dots.c compose phi_(x_k)(K). 
+    $
+    Let $c = max_{1 <= i <= n} c_i < 1$, then
+    $
+    "diam"(phi_(x_1) compose dots.c compose phi_(x_k)(K)) <= c^k dot "diam"(K). 
+    $
+    Let $delta > 0$ and choose $k$ such that $c^k dot "diam"(K) <= delta$, then
+    $
+    {phi_(x_1) compose dots.c compose phi_(x_k)(K) : (x_1, dots, x_k) in {1, dots, n}^k}
+    $
+    is a cover of $K$ by sets of diameter at most $delta$, and
+    $
+    sum_(x_1, dots, x_k) "diam"(phi_(x_1) compose dots.c compose phi_(x_k)(K))^alpha &<= sum_(x_1, dots, x_k) c_(x_1)^alpha dot dots.c dot c_(x_k)^alpha dot "diam"(K)^alpha \
+    &= (sum_(i=1)^n c_(x_1)^alpha) dots (sum_(i=1)^n c_(x_k)^alpha) dot "diam"(K)^alpha \
+    &= "diam"(K)^alpha < oo,
+    $
+    so $cal(H)^alpha_delta (K) < "diam"(K)^alpha$ for every $delta > 0$. Letting $delta -> 0$, we have $cal(H)^alpha (K) <= "diam"(K)^alpha < oo$, so $dim_H (K) <= alpha$.
+    $qed$
+]
+
+#definition[
+    We say that an IFS $(phi_1, dots, phi_n)$ consisting of similitudes satisfies the open set condition if there exists a nonempty bounded open set $cal(U) subset.eq RR^d$ such that $phi_i (cal(U)) subset.eq cal(U)$ for every $i$ and $phi_i (cal(U)) inter phi_j (cal(U)) = emptyset$ for every $i != j$.
+]
+
+An IFS such that $phi_i (K) inter phi_j (K) = emptyset$ for every $i != j$ is said to satisfy the strong separation condition, which implies the open set condition by taking an open $epsilon$-neighborhood of $K$ as the open set.
+
+#lemma[
+    Let $(V_i)$ be a collection of pairwise disjoint open subsets of $RR^d$ such that each $V_i$ contains a ball of radius $a_1 r$ and is contained in a ball of radius $a_2 r$. Then any ball of radius $r$ intersects with at most $(1 + 2a_2)^d a_1^(-d)$ of the closures of $V_i$.
+]
+#proof[
+    Let $B = B(x, r)$ be a ball with radius $r$. Suppose that $B inter overline(V_i) != emptyset$ for some $i$, then $V_i subset.eq B(x, (1 + 2a_2) r)$ since $V_i$ is contained in a ball of radius $a_2 r$ and intersects with $B$. Suppose that $k$ of the sets $overline(V_i)$ intersect with $B$, then
+    $
+    m(B(x, (1 + 2a_2) r)) >= sum_{i: B inter overline(V_i) != emptyset} m(V_i) >= k dot m(B(0, a_1 r)),
+    $
+    where $m$ is the Lebesgue measure on $RR^d$, so $k <= (1 + 2a_2)^d a_1^(-d)$.
+    $qed$
+]
+
+#theorem(name: "Hutchinson")[
+    Let $K$ be a self-similar set that is the attractor of an IFS $(phi_1, dots, phi_n)$ consisting of similitudes with contraction ratios $(r_1, dots, r_n)$ satisfying the open set condition. Then $dim_H (K) = alpha$, where $alpha$ is the unique solution to the equation
+    $
+    sum_(i=1)^n r_i^alpha = 1.
+    $
+    Moreover, $0 < cal(H)^alpha (K) < oo$.
+]
+#proof[
+    It suffices to show that $cal(H)^alpha (K) > 0$. By @thm:self_similar_measures, there exists a self-similar measure $mu$ associated to the IFS with probability vector $(r_1^alpha, dots, r_n^alpha)$, which is a mass distribution on $K$. Write
+    $
+    E[x_1, dots, x_k] = phi_(x_1) compose dots.c compose phi_(x_k)(E). 
+    $
+    Let $V$ be the bounded open set from the open set condition. Choose $a_1, a_2 > 0$ such that $V$ contains a ball of radius $a_1$ and is contained in a ball of radius $a_2$. Fix $0 < rho < 1$. For every $(x_i) in sum_n$, there is exactly one $k$ such that
+    $
+    r_(x_1) dot dots.c dot r_(x_k) <= rho < r_(x_1) dot dots.c dot r_(x_(k-1)). 
+    $
+    Set
+    $
+    cal(S) = union.big_k {(x_1, dots, x_k) : r_(x_1) dot dots.c dot r_(x_k) <= rho < r_(x_1) dot dots.c dot r_(x_(k-1))}. 
+    $
+    By the open set condition, the sets $V[x_1, dots, x_k]$ are pairwise disjoint for $(x_1, dots, x_k) in cal(S)$, and each $V[x_1, dots, x_k]$ contains a ball of radius
+    $
+    a_1 r_(x_1) dot dots.c dot r_(x_k) >= a_1 rho dot min_{1 <= i <= n} r_i
+    $
+    and is contained in a ball of radius
+    $
+    a_2 r_(x_1) dot dots.c dot r_(x_k) <= a_2 rho. 
+    $
+    By the previous lemma, any ball of radius $rho$ intersects with at most
+    $
+    M := (1 + 2a_2)^d a_1^(-d) min_{1 <= i <= n} r_i^(-d)
+    $
+    of the sets from the collection
+    $
+    {overline(V[x_1, dots, x_k]) : (x_1, dots, x_k) in cal(S)}. 
+    $
+
+    Define
+    $
+    Phi: cal(K) -> cal(K), quad Phi(E) = union.big_(i=1)^n phi_i(E),
+    $
+    then $Phi$ is a contraction on $(cal(K), cal(D))$. Since $V supset.eq Phi(V)$, we have $overline(V) supset.eq Phi(overline(V)) supset.eq Phi^2(overline(V)) supset.eq dots.c$, and also $lim_(n -> oo) Phi^n (overline(V)) = K$ in the Hausdorff metric, so $overline(V) supset.eq K$, and hence $overline(V[x_1, dots, x_k]) supset.eq K[x_1, dots, x_k]$. Note that ${K[x_1, dots, x_k] : (x_1, dots, x_k) in cal(S)}$ covers $K$, so the collection ${overline(V[x_1, dots, x_k]) : (x_1, dots, x_k) in cal(S)}$ also covers $K$. 
+
+    Let $cal(U)$ be a closed set with diameter $rho$, then there exists a ball $cal(B)$ with radius $2rho$ that contains $cal(U)$. Recall from @thm:self_similar_measures that
+    $
+    mu(K[x_1, dots, x_k]) >= r_(x_1)^alpha dot dots.c dot r_(x_k)^alpha. 
+    $
+    In fact, the equality holds when $phi$ satisfies the open set condition, so
+    $
+    mu(cal(U)) &<= mu(cal(B)) = mu(K inter cal(B)) \
+    &<= sum_{(x_1, dots, x_k) in cal(S): overline(V[x_1, dots, x_k]) inter cal(B) != emptyset} mu(K[x_1, dots, x_k]) \
+    &<= sum_{(x_1, dots, x_k) in cal(S): overline(V[x_1, dots, x_k]) inter cal(B) != emptyset} r_(x_1)^alpha dot dots.c dot r_(x_k)^alpha \
+    &<= M dot rho^alpha = M dot "diam"(cal(U))^alpha.
+    $
+    By @thm:mass_distribution, we have $cal(H)^alpha (K) >= mu(K) / M > 0$.
+    $qed$
+]
+
+#example[
+    + Since the unit interval is the attractor of the IFS consisting of two similitudes
+        $
+        phi_1(x) = x/2,  quad  phi_2(x) = x/2 + 1/2,
+        $
+        the Hausdorff dimension of the unit interval is the unique solution to
+        $
+        (1/2)^alpha + (1/2)^alpha = 1,
+        $
+        which is $alpha = 1$. 
+    + The middle-thirds Cantor set is the attractor of the IFS consisting of two similitudes
+        $
+        phi_1(x) = x/3,  quad  phi_2(x) = x/3 + 2/3,
+        $
+        so its Hausdorff dimension is the unique solution to
+        $
+        (1/3)^alpha + (1/3)^alpha = 1,
+        $
+        which is $alpha = log_3(2)$.
+    + The Sierpinski triangle is the attractor of the IFS consisting of three similitudes of contraction ratio $1/2$ and satisfies the open set condition, so its Hausdorff dimension is the unique solution to
+        $
+        (1/2)^alpha + (1/2)^alpha + (1/2)^alpha = 1,
+        $
+        which is $alpha = log_2(3)$.
+    + The von Koch curve is the attractor of the IFS consisting of four similitudes of contraction ratio $1/3$ and satisfies the open set condition, so its Hausdorff dimension is the unique solution to
+        $
+        (1/3)^alpha + (1/3)^alpha + (1/3)^alpha + (1/3)^alpha = 1,
+        $
+        which is $alpha = log_3(4)$.
+]
+
+== The Geometry of Fractals
+
+We want to compare the geometry of a fractal set with that of a smooth manifold. 
+
+=== Projections of Self-similar Sets
+
+We call a set $C subset.eq R^d$ a $1$-set if $0 < cal(H)^1 (C) < oo$, in particular $dim_H (C) = 1$. 
+
+Suppose that $C subset.eq R^2$ is a self-similar set, which is the attractor of $n$ similitudes $phi_1, dots, phi_n$ with contraction rations $1/n$ and satisfies the strong separation condition. Assume that the similitudes do not involve rotations, i.e. $phi_i (x) = x/n + a_i$ for some $a_i in R^2$ for every $i$. By Hutchinson's theorem, $C$ is a $1$-set. Clearly, smooth curves are $1$-sets, but not all $1$-sets are smooth curves. For example, the attractor of the IFS consisting of four similitudes
+$
+phi_1(x) = x/4,  quad  phi_2(x) = x/4 + (3/4, 0),  quad  phi_3(x) = x/4 + (0, 3/4),  quad  phi_4(x) = x/4 + (3/4, 3/4)
+$
+is a $1$-set, but it is not a smooth curve since it contains four disjoint copies of itself.
+
+We say a set $S subset.eq R^2$ is invisible from direction $theta in [0, pi)$ if the orthogonal projection $"proj"_theta$ of $S$ onto the line with angle $theta$ has zero Lebesgue measure. 
+
+The projection of a differentiable curve $gamma$ gives an interval (possibly degenerate) for every direction. This interval is degenerate if and only if $gamma$ is a straight line and the direction is perpendicular to $gamma$. In particular, a smooth curve is invisible from at most one direction. 
+
+#theorem[
+    Let $C subset.eq R^2$ be a self-similar set that is the attractor of $n$ similitudes
+    $
+    phi_i(x) = x/n + a_i,  quad  a_i in R^2,
+    $
+    satisfying the strong separation condition. Then $C$ is invisible for Lebesgue-almost every direction.
+]
+#proof[
+    Let $C(theta) := "proj"_theta (C)$ for every $theta in [0, pi)$. If $a_i(theta)$ is the projection of $a_i$ onto the line with angle $theta$, then
+    $
+    C(theta) = union.big_(i=1)^n (C(theta)/n + a_i (theta)),
+    $
+    so $C(theta)$ is a self-similar set of similarity dimension $1$. 
+
+    Let $b_1, dots, b_n in RR$, $psi_i(x) = x/n + b_i$ and $K subset.eq RR$ be the attractor of the IFS $(psi_1, dots, psi_n)$. Write $K_i = psi_i(K)$ for each $i$. 
+
+    #claim[
+        $m(K_i inter K_j) = 0$ for $i != j$, where $m$ is the Lebesgue measure on $RR$.
+    ]
+    #proof[
+        Fix $i != j$, then
+        $
+        m(K) = m(union.big_(l=1)^n K_l) <= sum_(l=1)^n m(K_l) - m(K_i inter K_j) = m(K) - m(K_i inter K_j),
+        $
+        so $m(K_i inter K_j) = 0$.
+        $qed$
+    ]
+
+    #claim[
+        Exists $i != j$ such that $K_i inter K_j != emptyset$. 
+    ]
+    #proof[
+        Suppose that all $K_i$ are pairwise disjoint. By compactness, there exists $epsilon > 0$ such that the epsilon-neighborhoods $K_i [epsilon]$ are still pairwise disjoint. But
+        $
+        m(K[epsilon]) = sum_(i=1)^n m(K_i [epsilon]) = n dot m(1/n (K[epsilon n])) = m(K[epsilon n]). 
+        $
+        Since $n > 1$, this is a contradiction.
+        $qed$
+    ]
+
+    #claim[
+        If $m(K) > 0$ and $eta in (0, 1)$, then $exists$ an interval $J$ such that $m(K inter J) > eta m(J)$. 
+    ]
+    #proof[
+        Suppose that $m(K) > 0$ and $eta in (0, 1)$. Let $cal(I)$ be the collection of all intervals $I$ such that $m(K inter I) <= eta m(I)$, then $cal(I)$ is a Vitali cover of $K$, so by the Vitali covering lemma, there exists a disjoint subcollection $(I_k)$ of $cal(I)$ such that $m(K without union.big_k I_k) = 0$. Since $m(K) > 0$, there exists some $k$ such that $m(K inter I_k) > 0$, so $m(K inter I_k) > eta m(I_k)$ since $I_k in cal(I)$, hence we can take $J = I_k$.
+        $qed$
+    ]
+
+    For a word $u = (u_1, dots, u_k)$, define
+    $
+    K_u = psi_(u_1) compose dots.c compose psi_(u_k)(K), 
+    $
+    then
+    $
+    K = union.big_(u : |u| = m) K_u. 
+    $
+    For two distinct words $u$ and $v$ of length $m$, we call $K_u$ and $K_v$ $epsilon$-close if $K_u = K_v + x$ for some $x$ with $|x| <= epsilon n^(-m)$. 
+
+    #lemma(name: "Bandt-Graf")[
+        If for all $epsilon > 0$, there exists two distinct words $u$ and $v$ of the same length such that $K_u$ and $K_v$ are $epsilon$-close, then $m(K) = 0$.
+    ]
+    #proof[
+        Suppose $m(K) > 0$, then there exists an interval $J$ such that $m(K inter J) > 0.9 m(J)$. Let $epsilon = 0.1 m(J) > 0$. By assumption, exists $K_u, K_v$ that are $epsilon$-close. Write
+        $
+        K_u = 1/(n^m) K + b_u,  quad  K_v = 1/(n^m) K + b_v. 
+        $
+        Set
+        $
+        J_u = psi_(u_1) compose dots.c compose psi_(u_k)(J),  quad  J_v = psi_(v_1) compose dots.c compose psi_(v_k)(J),
+        $
+        then
+        $
+        m(K_u inter J_u) = 1/(n^m) m(K inter J) > 0.9 m(J_u), \ 
+        m(K_v inter J_v) = 1/(n^m) m(K inter J) > 0.9 m(J_v).
+        $
+        Since $K_u$ and $K_v$ are $epsilon$-close, we have
+        $
+        & |b_u - b_v| <= epsilon n^(-m) = 0.1 m(J) n^(-m) = 0.1 m(J_u) \
+        ==> & m(J_u inter J_v) >= m(J_u) - |b_u - b_v| - |b_v - b_u| >= 0.8 m(J_u) \
+        ==> & m(K_u inter K_v) >= m(J_u inter J_v) - m(J_u inter K_u^c) - m(J_v inter K_v^c) \
+        &>= 0.8 m(J_u) - 0.1 m(J_u) - 0.1 m(J_v) = 0.6 m(J_u) > 0,
+        $
+        contradicting the previous claim.
+        $qed$
+    ]
 ]
