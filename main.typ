@@ -4818,7 +4818,7 @@ We say a set $S subset.eq R^2$ is invisible from direction $theta in [0, pi)$ if
 
 The projection of a differentiable curve $gamma$ gives an interval (possibly degenerate) for every direction. This interval is degenerate if and only if $gamma$ is a straight line and the direction is perpendicular to $gamma$. In particular, a smooth curve is invisible from at most one direction. 
 
-#theorem[
+#theorem(id: "thm:invisible_1-set")[
     Let $C subset.eq R^2$ be a self-similar set that is the attractor of $n$ similitudes
     $
     phi_i(x) = x/n + a_i,  quad  a_i in R^2,
@@ -4846,7 +4846,7 @@ The projection of a differentiable curve $gamma$ gives an interval (possibly deg
         $qed$
     ]
 
-    #claim[
+    #claim(id: "clm:not_pairwise_disjoint")[
         Exists $i != j$ such that $K_i inter K_j != emptyset$. 
     ]
     #proof[
@@ -4862,7 +4862,11 @@ The projection of a differentiable curve $gamma$ gives an interval (possibly deg
         If $m(K) > 0$ and $eta in (0, 1)$, then $exists$ an interval $J$ such that $m(K inter J) > eta m(J)$. 
     ]
     #proof[
-        Suppose that $m(K) > 0$ and $eta in (0, 1)$. Let $cal(I)$ be the collection of all intervals $I$ such that $m(K inter I) <= eta m(I)$, then $cal(I)$ is a Vitali cover of $K$, so by the Vitali covering lemma, there exists a disjoint subcollection $(I_k)$ of $cal(I)$ such that $m(K without union.big_k I_k) = 0$. Since $m(K) > 0$, there exists some $k$ such that $m(K inter I_k) > 0$, so $m(K inter I_k) > eta m(I_k)$ since $I_k in cal(I)$, hence we can take $J = I_k$.
+        Suppose that $m(K) > 0$ and $eta in (0, 1)$. By outer regularity of Lebesgue measure, we can find an open set $U supset.eq K$ such that $m(U) < m(K) / eta$. Since $U$ is open, we can write $U$ as a countable union of disjoint open intervals. If $m(E inter J) < eta m(J)$ for every such interval $J$, then
+        $
+        m(K) = m(U inter K) <= sum_J m(U inter J) < eta sum_J m(J) = eta m(U) < m(K),
+        $
+        which is a contradiction.
         $qed$
     ]
 
@@ -4903,4 +4907,98 @@ The projection of a differentiable curve $gamma$ gives an interval (possibly deg
         contradicting the previous claim.
         $qed$
     ]
+
+    Let $epsilon > 0$. Define
+    $
+    Theta(epsilon) = {theta in [0, pi) : exists u != v "such that" C(theta)_u "and" C(theta)_v "are" epsilon"-close"}.
+    $
+    By Bandt-Graf lemma, if $theta in Theta(epsilon)$ for all $epsilon > 0$, then $m(C(theta)) = 0$. It suffices to show that $Theta(epsilon)$ has full measure for every $epsilon > 0$.
+
+    #lemma[
+        Suppose that $I$ is an interval and $B subset.eq I$ is a Borel subset such that $exists a, b > 0$ such that the porosity condition holds for all $theta in I$, i.e. for every $delta > 0$, the interval $[theta - a delta, theta + a delta]$ contains a subinterval of length $b delta$ that is disjoint from $I without B$. Then $m(I without B) = 0$.
+    ]
+    #proof[
+        Divide $I$ into finitely many subintervals of length $2 a delta$. For each such interval we can remove an interval of length $b delta$ that is disjoint from $I without B$. The remainder is a union of intervals of total length $m(I) (1 - b/(2a))$. Repeating this process indefinitely, we have $m(I without B) <= m(I) (1 - b/(2a))^n$ for every $n$, so $m(I without B) = 0$.
+        $qed$
+    ]
+
+    WLOG assume that $C subset.eq [0, 1]^2$. We will show that for every $epsilon > 0$, the porosity condition holds for $[0, pi) without Theta(epsilon)$. It suffices to for $delta$ of form $n^(-m)$. Fix $theta_0 in [0, pi)$. By @clm:not_pairwise_disjoint, there exist $i != j$ such that $C(theta_0)_i inter C(theta_0)_j != emptyset$. In particular, for each $m$, $exists$ words $u = (i, u_2, dots, u_m)$ and $v = (j, v_2, dots, v_m)$ such that
+    $
+    C(theta_0)_u inter C(theta_0)_v != emptyset.
+    $
+    Note that for all words $w$ of length $m$, exists some $a_w$ such that
+    $
+    C_w = 1/(n^m) C + a_w.
+    $
+    Since $C subset.eq [0, 1]^2$, we have
+    $
+    C_w subset.eq Q_w := 1/(n^m) [0, 1]^2 + a_w.
+    $
+    Let $theta_1$ be the angle of the line orthogonal to $overline(a_u a_v)$, then $Q_u$ and $Q_v$ have the same projection onto $L_(theta_1)$, and same for $C_u$ and $C_v$. Since the two squares $Q_u$ and $Q_v$ have distance $<= 1$ and the projection is Lipschitz, there exists a universal constant $c > 0$ such that for every $epsilon > 0$ and every $theta in (theta_1 - c epsilon n^(-m), theta_1 + c epsilon n^(-m))$, one has $Q_u(theta) = Q_v(theta) + x$ for some $|x| <= epsilon n^(-m)$, i.e. $(theta_1 - c epsilon n^(-m), theta_1 + c epsilon n^(-m)) subset.eq Theta(epsilon)$. By strong separation condition and compactness, we can choose $r > 0$ such that $d(C_k, C_l) > r$ for every distinct $k, l = 1, dots, n$. By basic geometry, $exists A > 0$ such that
+    $
+    |theta_1 - theta_0| <= A (n^(-m))/(d(C_i, C_j)) <= A (n^(-m))/r <= (A/r + c epsilon) n^(-m).
+    $
+    Therefore, the interval $[theta_0 - (A/r + c epsilon) n^(-m), theta_0 + (A/r + c epsilon) n^(-m)]$ contains a subinterval of length $2 c epsilon n^(-m)$ that is contained in $Theta(epsilon)$, so the porosity condition holds for $[0, pi) without Theta(epsilon)$. By the previous lemma, we have $m([0, pi) without Theta(epsilon)) = 0$.
+    $qed$
+]
+
+#theorem[
+    Let $C$ be a self-similar $1$-set in $R^2$ that is the attractor of $n$ similitudes satisfying the strong separation condition. Then for all Lipscitz curves $gamma: RR -> RR^2$, $gamma(RR) inter C$ has zero $1$-Hausdorff measure. 
+]
+#proof[
+    If $cal(H)^1 (gamma(RR) inter C) > 0$, then we can find a small interval $I$ such that the segment $gamma(I)$ is almost covered by $C$. The projections of $gamma(I) inter C$ and $gamma(I)$ are almost the same. $gamma(I)$ projects on a nondegenerate interval in all but at most one direction, but $C$ is invisible for almost every direction, so we have a contradiction.
+    $qed$
+]
+
+#remark[
+    - This property is sometimes taken as the definition of a fractal (or irregular set) in geometric measure theory. Analogous definitions hold for $m$-sets for $m in NN$, replacing curves by manifolds. 
+    - Besicovitch projection theorem states that the above alternative definition is equivalent to the invisibility of self-similar $1$-sets. 
+]
+
+== The Besicovitch Problem
+
+The Besicovitch problem asks the following question: what is the size of the smallest set in $RR^2$ that contains a unit line segment in every direction?
+
+#lemma[
+    There exists a compact $C subset.eq [0, 1]^2$ with $0 < cal(H)^1(C) < oo$ such that the projection of $C$ onto the $x$-axis is $[0, 1]$, but $C$ is invisible from almost all directions. 
+]
+#proof[
+    Consider the IFS consisting of four similitudes
+    $
+    phi_1(x) = x/4,  quad  phi_2(x) = x/4 + (1/4, 3/4), \
+    phi_3(x) = x/4 + (1/2, 0),  quad  phi_4(x) = x/4 + (3/4, 3/4).
+    $
+    Let $C$ be the attractor of this IFS, then $C$ is a $1$-set by Hutchinson's theorem. Moreover, the projection of $C$ onto the $x$-axis is $[0, 1]$, but $C$ is invisible from almost all directions by @thm:invisible_1-set. 
+    $qed$
+]
+
+#theorem(name: "Besicovitch")[
+    There exists a Borel set $B subset.eq RR^2$ with $m(B) = 0$ containing an infinite line in every direction. 
+]
+#proof[
+    Take $C$ from the previous lemma. For each point $(a, b) in C$, consider the lines
+    $
+    ell(a, b) = {(x, y) in RR^2 : y = a x + b}.
+    $
+    Define
+    $
+    B' = union.big_((a, b) in C) ell(a, b). 
+    $
+    Note that the function $f(a, b, x) = (x, a x + b)$ is continuous. Since $RR$ is $sigma$-compact,  $B' = f(C times RR)$ is a countable union of compact sets, hence Borel. From the construction of $C$, for all $a in [0, 1]$, there exists $b in [0, 1]$ such that $(a, b) in C$, so for each $theta in [0, pi/4]$, there exists a line with angle $theta$ contained in $B'$. Taking $B$ as the union of $B'$ and its rotations by angles $pi/4, pi/2$ and $3pi/4$, we have that $B$ contains a line in every direction. It remains to show that $m(B) = 0$, or equivalently $m(B') = 0$. By Fubini's theorem, it suffices to show that almost every vertical line intersects with $B'$ on a set of zero Lebesgue measure. For each $x in RR$, the intersection of $B'$ with the vertical line $\{x\} times RR$ is
+    $
+    B' inter (\{x\} times RR) = {f(a, b, x) : (a, b) in C} = {x} times {a x + b : (a, b) in C},
+    $
+    but ${a x + b : (a, b) in C}$ is the projection of $C$ onto the line with slope $1/x$, which has zero Lebesgue measure for almost every $x$ since $C$ is invisible from almost every direction, so $m(B' inter (\{x\} times RR)) = 0$ for almost every $x$. Therefore, $m(B') = 0$.
+    $qed$
+]
+
+#remark[
+    - In higher dimensions, the problem of finding the smallest set containing a unit line segment in every direction is still open. 
+    - Another natural question is to ask the minimal dimension of such a set in $RR^d$. Kakeya's conjectiure states that the Hausdorff dimension of such a set in $RR^d$ is $d$. 
+        - In $1971$, the case $d = 2$ was proved by Davies. 
+        - In $1995$, Wolff proved that the Hausdorff dimension of such a set has dimension at least $(d + 2)/2$. 
+        - In $2000$, Katz, Laba and Tao improved the lower bound to $5/2 + epsilon$ for $d = 3$. 
+        - In $2002$, Katz and Tao improved the lower bound to $(2 - sqrt(2))(d - 4) + 3$. 
+        - In $2019$, Katz and Zahl improved KLT's bound. 
+        - In $2025$, Wang and Zahl proved the Kakeya conjecture in $RR^3$.
 ]
