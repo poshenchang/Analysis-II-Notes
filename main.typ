@@ -4380,7 +4380,7 @@ $
 
 #proposition[
     $
-    underline(dim)_M (E) = inf {s >= 0 : M^s(E) = 0} = sup {s >= 0 : M^s(E) > 0}.
+    underline(dim)_M (E) = inf {s >= 0 : M^s (E) = 0} = sup {s >= 0 : M^s (E) > 0}.
     $
 ]
 #proof[
@@ -4480,7 +4480,7 @@ Clearly $cal(H)_*^alpha$ is monotone and countably subadditive.
     $qed$
 ]
 
-The above implies that $cal(H)_*^alpha$ is countably additive on Borel sets, hence defines a Borel measure on $X$. Write $cal(H)^alpha(E) = cal(H)_*^alpha (E)$ when $E$ is a Borel set, then $cal(H)^alpha$ is called the $alpha$-dimensional Hausdorff measure on $X$.
+The above implies that $cal(H)_*^alpha$ is countably additive on Borel sets, hence defines a Borel measure on $X$. Write $cal(H)^alpha (E) = cal(H)_*^alpha (E)$ when $E$ is a Borel set, then $cal(H)^alpha$ is called the $alpha$-dimensional Hausdorff measure on $X$.
 
 #proposition[
     - $cal(H)^alpha (E + h) = cal(H)^alpha (E)$ for every $E subset.eq RR^d$ and $h in RR^d$.
@@ -4750,7 +4750,7 @@ An IFS such that $phi_i (K) inter phi_j (K) = emptyset$ for every $i != j$ is sa
 
     Define
     $
-    Phi: cal(K) -> cal(K), quad Phi(E) = union.big_(i=1)^n phi_i(E),
+    Phi: cal(K) -> cal(K), quad Phi(E) = union.big_(i=1)^n phi_i (E),
     $
     then $Phi$ is a contraction on $(cal(K), cal(D))$. Since $V supset.eq Phi(V)$, we have $overline(V) supset.eq Phi(overline(V)) supset.eq Phi^2(overline(V)) supset.eq dots.c$, and also $lim_(n -> oo) Phi^n (overline(V)) = K$ in the Hausdorff metric, so $overline(V) supset.eq K$, and hence $overline(V[x_1, dots, x_k]) supset.eq K[x_1, dots, x_k]$. Note that ${K[x_1, dots, x_k] : (x_1, dots, x_k) in cal(S)}$ covers $K$, so the collection ${overline(V[x_1, dots, x_k]) : (x_1, dots, x_k) in cal(S)}$ also covers $K$. 
 
@@ -5001,4 +5001,236 @@ The Besicovitch problem asks the following question: what is the size of the sma
         - In $2002$, Katz and Tao improved the lower bound to $(2 - sqrt(2))(d - 4) + 3$. 
         - In $2019$, Katz and Zahl improved KLT's bound. 
         - In $2025$, Wang and Zahl proved the Kakeya conjecture in $RR^3$.
+]
+
+= Ergodic Theory
+
+#definition[
+    Let $(X, cal(M), mu)$ be a probability space (which means that $mu(X) = 1$). 
+    - A measurable function $T: X -> X$ is called measure-preserving if
+    $
+    mu(T^(-1)(A)) = mu(A)
+    $
+    for every $A in cal(M)$.
+    - A measure-preserving transformation $T$ is called ergodic if for every $A in cal(M)$, if $T^(-1)(A) = A$, then $mu(A) = 0$ or $1$.
+    - Let $phi: X -> [0, oo)$ be bounded and measurable. The time average of $phi$ along the trajectory $x, T(x), T^2 (x), ...$ at time $n-1$ is defined as
+    $
+    1/n sum_(k=0)^(n-1) phi(T^k (x)).
+    $
+    The space average of $phi$ is defined as
+    $
+    integral_X phi d mu.
+    $
+]
+
+#theorem(name: "Birkhoff")[
+    Let $T: X -> X$ be measure-preserving. Suppose that $phi: X -> [0, oo)$ is bounded and measurable. The the limit
+    $
+    psi(x) := lim_(k -> oo) 1/k sum_(j=0)^(k-1) phi(T^j (x))
+    $
+    exists and satisfies $psi compose T = psi$ for $mu$-a.e. $x in X$, and
+    $
+    integral_X phi d mu = integral_X psi d mu.
+    $
+    If furthermore $T$ is ergodic, then $psi$ is constant $mu$-a.e. with value $integral_X phi d mu$.
+]
+#proof[
+    Let $M$ be an upper bound for $phi$. Write
+    $
+    alpha_k (x) = 1/k sum_(j=0)^(k-1) phi(T^j (x)). 
+    $
+    Let $overline(alpha)(x) = limsup_(k -> oo) alpha_k (x)$, then $overline(alpha)$ is measurable and
+    $
+    overline(alpha)(T(x)) &= limsup_(k -> oo) 1/k sum_(j=0)^(k-1) phi(T^(j+1) (x)) \
+    &= limsup_(k -> oo) 1/k (sum_(j=0)^(k-1) phi(T^j (x)) - phi(x) + phi(T^k (x))) = overline(alpha)(x).
+    $
+    By induction, $overline(alpha)(T^n (x)) = overline(alpha)(x)$ for every $n$. 
+
+    We claim that $integral_X overline(alpha) d mu <= integral_X phi d mu$. Fix $epsilon > 0$. Define
+    $
+    tau(x) = min {k in NN : alpha_k (x) >= overline(alpha)(x) - epsilon}.
+    $
+    By definition, $tau(x) < oo$ for every $x$ and is measurable. Assume first that $tau(x) <= S$ for every $x$ for some $S in NN$. For each $x$, define a sequence $k_1, k_2, ...$ recursively by setting $k_1 = tau(x)$ and
+    $
+    k_i := tau(T^(k_1 + dots.c + k_(i-1)) (x)).
+    $
+    Then for each $i$,
+    $
+    sum_(j=k_1 + dots.c + k_(i-1))^(k_1 + dots.c + k_i - 1) phi(T^j (x)) &= k_i alpha_(k_i) (T^(k_1 + dots.c + k_(i-1)) (x)) \
+    &>= k_i (overline(alpha)(T^(k_1 + dots.c + k_(i-1)) (x)) - epsilon) = k_i (overline(alpha)(x) - epsilon).
+    $
+    Summing over $i$, if $k$ is of the form $k_1 + dots.c + k_i$, then
+    $
+    sum_(j=0)^(k-1) phi(T^j (x)) >= sum_(i=1)^i k_i (overline(alpha)(x) - epsilon) >= k (overline(alpha)(x) - epsilon). 
+    $
+    For arbitrary $k$, let $l$ be the largest integer such that $k_1 + dots.c + k_l <= k$, then $0 <= k - (k_1 + dots.c + k_l) < S$. Also, 
+    $
+    sum_(j=0)^(k-1) phi(T^j (x)) &>= sum_(j=0)^(k_1 + dots.c + k_l - 1) phi(T^j (x)) \
+    &>= (k_1 + dots.c + k_l) (overline(alpha)(x) - epsilon) >= (k - S) (overline(alpha)(x) - epsilon).
+    $
+    Therefore, 
+    $
+    integral phi compose T^j d mu &= integral phi d (mu compose T^(-j)) = integral phi d mu \
+    &>= integral (k - S)/k (overline(alpha) - epsilon) d mu. 
+    $
+    Letting $k -> oo$ and then $epsilon -> 0$, we have
+    $
+    integral_X phi d mu >= integral_X overline(alpha) d mu.
+    $
+    In general, $tau$ may not be bounded. Define $A = {x : tau(x) > S}$, then $mu(A) -> 0$ as $S -> oo$. Choose $S$ large enough such that $mu(A) < epsilon$. We'll modify the definition of $phi$ on $A$ and apply the previous argument to the modified function. Define
+    $
+    phi^*(x) = cases(
+        phi(x) & "if" x in.not A,
+        M & "if" x in A.
+    )
+    $
+    Consider
+    $
+    alpha_k^* (x) = 1/k sum_(j=0)^(k-1) phi^*(T^j (x)), quad tau^*(x) = min {k in NN : alpha_k^* (x) >= overline(alpha)(x) - epsilon}.
+    $
+    If $x in A$, then $alpha^*_1 (x) = phi^*(x) = M >= overline(alpha)(x) - epsilon$, so $tau^*(x) = 1$. Also, $alpha_k^* (x) >= alpha_k (x)$ for every $x$ and $k$, so $tau^*(x) <= tau(x)$ for every $x$. In particular, $tau^*(x) <= S$ for every $x$. The previous argument applied to $phi^*$ and $tau^*$ gives
+    $
+    integral_X overline(alpha) d mu &<= integral_X phi^* d mu + epsilon \
+    &= integral_X phi d mu + epsilon (M - integral_X phi d mu) + epsilon \
+    &<= integral_X phi d mu + epsilon M + epsilon.
+    $
+    Taking $epsilon -> 0$, we have $integral_X overline(alpha) d mu <= integral_X phi d mu$. Similarly, we can show that
+    $
+    integral_X underline(alpha) d mu >= integral_X phi d mu,
+    $
+    where $underline(alpha)(x) = liminf_(k -> oo) alpha_k (x)$, so
+    $
+    integral_X (underline(alpha) - overline(alpha)) d mu >= 0,
+    $
+    so $underline(alpha) = overline(alpha) = psi = psi(T)$ $mu$-a.e., and
+    $
+    integral_X phi d mu = integral_X overline(alpha) d mu = integral_X psi d mu.
+    $
+
+    Now suppose that $T$ is ergodic. For every $a >= 0$, define
+    $
+    L(a) = {x : psi(x) <= a}.
+    $
+    Note that
+    $
+    T(x) in L(a) iff psi(x) = psi(T(x)) <= a iff x in L(a),
+    $
+    so $T^(-1)(L(a)) = L(a)$, and hence $mu(L(a)) = 0$ or $1$. Let
+    $
+    c = sup {a : mu(L(a)) = 0} = inf {a : mu(L(a)) = 1},
+    $
+    then $psi(x) <= c$ for $mu$-a.e. $x$ and $psi(x) >= c$ for $mu$-a.e. $x$, so $psi(x) = c$ for $mu$-a.e. $x$. Since
+    $
+    c = integral_X psi d mu = integral_X phi d mu,
+    $
+    we have $psi(x) = integral_X phi d mu$ for $mu$-a.e. $x$.
+    $qed$
+]
+
+== Chaos Game
+
+Chaos game is a stochastic method to generate self-similar sets. Given an IFS $phi_1, dots, phi_n$ on $RR^d$, let $K$ be the attractor of this IFS. Choose a probability vector $(p_1, dots, p_n)$ such that $p_i > 0$ for every $i$ and $sum_(i=1)^n p_i = 1$. Pick an arbitrary point $y_0 in RR^d$ and define a sequence $y_1, y_2, ...$ recursively by choosing $X_k in {1, dots, n}$ independently with distribution $(p_1, dots, p_n)$ and setting $y_k = phi_(X_k) (y_(k-1))$ for every $k >= 1$. This algorithm produces a random sequence of points ${y_0, y_1, y_2, ...}$ in $RR^d$.
+
+#theorem[
+    Suppose that $X subset.eq RR^d$ is compact. Let $phi_1, dots, phi_n$, $K$, $mu$ be as above. Let $g: X -> [0, oo)$ be continuous. Then, with probability $1$, 
+    $
+    lim_(k -> oo) 1/k sum_(i=0)^(k-1) g(y_i) = integral_K g d mu.
+    $
+]
+#proof[
+    We first show that the limit does not depend on the starting point. If we choose two starting points $y_0$ and $y_0'$, let $(y_i)$ and $(y_i')$ be the corresponding sequences generated by the same sequence of random choices $X_1, X_2, ...$. Then
+    $
+    d(y_k, y_k') <= c^k d(y_0, y_0') -> 0
+    $
+    as $k -> oo$, where $c < 1$ is the maximum of the contraction ratios of the $phi_i$'s. Let $epsilon > 0$ and choose $N$ large such that
+    $
+    |g(y_k) - g(y_k')| < epsilon
+    $
+    for every $k >= N$. Then
+    $
+    & limsup_(k -> oo) abs(1/k sum_(i=0)^(k-1) g(y_i) - 1/k sum_(i=0)^(k-1) g(y_i')) \
+    <= & limsup_(k -> oo) 1/k sum_(i=0)^(N-1) abs(g(y_i) - g(y_i')) + limsup_(k -> oo) 1/k sum_(i=N)^(k-1) abs(g(y_i) - g(y_i')) <= epsilon.
+    $
+
+    Next, we define appropriate probability space and measure-preserving transformation to apply Birkhoff's ergodic theorem. In order to make the operation deterministic, a point in our space will represent to a point in $K$ together with all future random choices. 
+
+    Consider the code space $sum_n = {1, dots, n}^NN$, where each point represents a sequence of random choices. By coding theorem, each point in $K$ can also be represented by a sequence in $sum_n$. Let $pi: sum_n -> K$ be the coding map. Take the space of double-sided sequences $sum_n^*$, where each $(x_k)_{k in ZZ} in sum_n^*$ represents the point $pi((x_(-1), x_(-2), ...))$ in $K$ together with the future random choices $(x_0, x_1, ...)$. By coding theorem, 
+    $
+    phi_(x_0) (pi((x_(-1), x_(-2), ...))) = pi((x_0, x_(-1), x_(-2), ...)).
+    $
+    At the same time, after applying $phi_(x_0)$, the future random choices are shifted by one step, so we can define a transformation $T: sum_n^* -> sum_n^*$ by
+    $
+    T((x_k)_(k in ZZ)) = (x_(k+1))_(k in ZZ).
+    $
+    Define $phi: sum_n^* -> [0, oo)$ by
+    $
+    phi((x_k)_(k in ZZ)) = g(pi((x_(-1), x_(-2), ...))).
+    $
+    If $y_0 = pi((x_(-1), x_(-2), ...))$, then
+    $
+    phi(T((x_k))) = g(pi((x_0, x_(-1), x_(-2), ...))) = g(phi_(x_0) (pi((x_(-1), x_(-2), ...)))) = g(y_1),
+    $
+    and by induction, $phi(T^j ((x_k))) = g(y_j)$ for every $j >= 0$.
+
+    Consider the $sigma$-algebra $cal(M)$ on $sum_n^*$ generated by the cylinder sets
+    $
+    {(x_k)_(k in ZZ) : x_i = y_i forall i in I}
+    $
+    for every finite set $I subset.eq ZZ$ and every $y_i in {1, dots, n}$ for $i in I$. Let $nu$ be the product measure on $sum_n^*$ such that
+    $
+    nu({(x_k) : x_i = y_i forall i in I}) = product_(i in I) p_(y_i)
+    $
+    for every finite set $I subset.eq ZZ$ and every $y_i in {1, dots, n}$ for $i in I$, which extends uniquely to a probability measure on $cal(M)$. 
+
+    We claim that $T$ is measure-preserving and ergodic with respect to $nu$. Indeed, for every cylinder set $A = {(x_k) : x_i = y_i forall i in I}$, we have
+    $
+    T^(-1)(A) = {(x_k) : x_(i+1) = y_i forall i in I} = {(x_k) : x_i = y_(i-1) forall i in I},
+    $
+    so $nu(T^(-1)(A)) = nu(A)$. Since the cylinder sets generate $cal(M)$, we have $nu(T^(-1)(A)) = nu(A)$ for every $A in cal(M)$. Note that for all $A in cal(M)$ and $epsilon > 0$, there exists a finite collection of cylinder sets $C_1, ..., C_m$ such that
+    $
+    nu(A triangle union.big_(i=1)^m C_i) < epsilon. 
+    $
+    We can show this by considering the collection of all $A in cal(M)$ that satisfies the above property, which is a $sigma$-algebra containing all cylinder sets, so it must be $cal(M)$. Let $A in cal(M)$ with $A = T^(-1)(A)$ and $nu(A) > 0$. We'll show $nu(A inter E) = nu(A)nu(E)$ for all cylinder sets $E$. Fix a cylinder set $E = {(x_k) : x_i = y_i forall i in I}$. Fix $epsilon > 0$, and find an approximation of cylinder sets $C_1, ..., C_m$ such that $nu(A triangle union.big_(i=1)^m C_i) < epsilon$, then
+    $
+    nu(A inter E) &= nu(T^(-N)(A) inter E) = nu(A inter T^N (E)) \
+    &in [nu((union.big_(i=1)^m C_i) inter T^N (E)) - epsilon, nu((union.big_(i=1)^m C_i) inter T^N (E)) + epsilon]. 
+    $
+    Consider
+    $
+    C = {(x_k) : x_l = y_l ' forall l in L}
+    $
+    where $L subset.eq ZZ$ is finite. Choose $N$ large such that $max I - N < min L$, then
+    $
+    nu(C inter T^N (E)) &= nu({(x_k) : x_l = y_l ' forall l in L, x_(i-N) = y_i forall i in I}) \
+    &= product_(l in L) p_(y_l ') product_(i in I) p_(y_i) = nu(C) nu(E).
+    $
+    Therefore, when $N$ is large, 
+    $
+    nu((union.big_(i=1)^m C_i) inter T^N (E)) &= sum_(i=1)^m nu(C_i inter T^N (E)) \
+    &in [sum_(i=1)^m nu(C_i) nu(E) - m epsilon, sum_(i=1)^m nu(C_i) nu(E) + m epsilon] \
+    &in [nu(A) nu(E) - (m + 1) epsilon, nu(A) nu(E) + (m + 1) epsilon].
+    $
+    Letting $epsilon -> 0$, we have $nu(A inter E) = nu(A)nu(E)$ for every cylinder set $E$. We then define
+    $
+    lambda(E) = nu(A inter E) / nu(A),
+    $
+    which gives $lambda(E) = nu(E)$ for every cylinder set $E$, so $lambda = nu$, implying that $nu(A) = lambda(A) = 1$.
+
+    Finally, by apply Birkhoff's ergodic theorem to $phi$ and $T$, we get
+    $
+    lim_(k -> oo) 1/k sum_(i=0)^(k-1) g(y_i)
+    &= lim_(k -> oo) 1/k sum_(i=0)^(k-1) g(phi_(x_(i-1)) compose dots.c compose phi_(x_0) (pi((x_(-1), x_(-2), ...))) \
+    &= lim_(k -> oo) 1/k sum_(i=0)^(k-1) g(pi((x_(i-1), x_(i-2), ...))) \
+    &= lim_(k -> oo) 1/k sum_(i=0)^(k-1) phi(T^i ((x_k))) \
+    &= integral phi d nu = integral_K g d mu
+    $
+    holds for $nu$-a.e. $(x_k) in sum_n^*$, i.e. the equation holds with probability $1$ for the sequence $(y_i)$ generated by the chaos game.
+    $qed$
+]
+
+#remark[
+    By approximating characteristic functions by continuous functions, we can show that with probability $1$, for every Borel set $A subset.eq K$ with $mu(partial A) = 0$, we have
+    $
+    lim_(k -> oo) 1/k sum_(j=0)^(k-1) chi_A (y_j) = mu(A).
+    $
 ]
