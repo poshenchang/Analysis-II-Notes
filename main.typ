@@ -5234,3 +5234,197 @@ Chaos game is a stochastic method to generate self-similar sets. Given an IFS $p
     lim_(k -> oo) 1/k sum_(j=0)^(k-1) chi_A (y_j) = mu(A).
     $
 ]
+
+== Normal Numbers
+
+Every real number $x in [0, 1)$ has a binary expansion
+$
+x = sum_(i=1)^oo (x_i)/(2^i), quad x_i in {0, 1}. 
+$
+A number $x in [0, 1)$ is called _normal_ in base $2$ if in its binary exponsion, the frequency of appearances of any finite sequence of digits $a_1a_2 dots.c a_n$ is $2^(-n)$. More precisely, 
+$
+lim_(k -> oo) (\#{1 <= i <= k : x_i = a_1, x_(i+1) = a_2, dots.c, x_(i+n-1) = a_n})/k = 1/(2^n). 
+$
+Although this looks restrictive, it turns out that almost every number in $[0, 1)$ is normal in base $2$.
+
+#lemma[
+    Define $T: [0, 1) -> [0, 1)$ by $T(x) = 2x mod 1$. Then $T$ is measure-preserving and ergodic with respect to the Lebesgue measure on $[0, 1)$.
+]
+#proof[
+    Define
+    $
+    phi_1(x) = x/2, quad  phi_2(x) = x/2 + 1/2.
+    $
+    Then $T^(-1)(A) = phi_1(A) union.sq phi_2(A)$ for every Borel set $A subset.eq [0, 1)$, hence
+    $
+    m(T^(-1)(A)) = m(phi_1(A)) + m(phi_2(A)) = m(A),
+    $
+    so $T$ is measure-preserving. 
+
+    To show ergodicity, first consider dyadic intervals $cal(D)_(n, k) = [k/(2^n), (k+1)/(2^n))$ for $n in NN$ and $0 <= k < 2^n$. We claim that for all measurable $A$, 
+    $
+    m(T^(-n)(A) inter cal(D)_(n, k)) = 1/(2^n) m(A) = m(A) m(cal(D)_(n, k)).
+    $
+    When $n = 1$, $T^(-1)(A) inter [0, 1/2) = phi_1(A)$, so
+    $
+    m(T^(-1)(A) inter cal(D)_(1, 0)) = m(phi_1(A)) = m(A)/2 = m(A) m(cal(D)_(1, 0)).
+    $
+    Similar for $cal(D)_(1, 1)$. Assume that the claim holds for $n$. Consider the interval $cal(D)_(n+1, k)$. We can write $k = r 2^n + j$, where $r = 0$ or $1$ and $0 <= j < 2^n$. If $r = 0$, then $cal(D)_(n+1, k) subset.eq [0, 1)$, so by induction hypothesis, 
+    $
+    m(T^(-n-1)(A) inter cal(D)_(n+1, k)) &= m(T^(-1)(T^(-n)(A) inter cal(D)_(n, j))) \
+    &= m(phi_1(T^(-n)(A) inter cal(D)_(n, j))) \
+    &= 1/2 m(T^(-n)(A) inter cal(D)_(n, j)) \
+    &= 1/2 m(A) m(cal(D)_(n, j)) = m(A) m(cal(D)_(n+1, k)). 
+    $
+    Similar for $r = 1$. Therefore, the claim holds for every $n$ and $k$. This implies that
+    $
+    m(A inter cal(D)_(n, k)) = m(A) m(cal(D)_(n, k))
+    $
+    for $A$ measurable with $m(A) > 0$ and $T^(-1)(A) = A$ and for every $n$ and $k$. Set $lambda(E) = m(A inter E)/m(A)$ for every measurable $E subset.eq [0, 1)$, then $lambda(cal(D)_(n, k)) = m(cal(D)_(n, k))$ for every $n$ and $k$, so by $pi$-$lambda$ theorem, $lambda = m$, implying that $T$ is ergodic.
+    $qed$
+]
+
+#theorem(name: "Borel's normal number theorem")[
+    Lebesgue almost every number in $[0, 1)$ is normal in base $2$.
+]
+#proof[
+    If $x = sum_(i=1)^oo (x_i)/(2^i)$, then $T(x) = sum_(i=1)^oo (x_(i+1))/(2^i)$, so $T$ shifts the binary expansion of $x$ to the left by one digit. Therefore, 
+    $
+    T^(i-1)(x) in cal(D)_(n,k) iff x_i = a_1, x_(i+1) = a_2, dots.c, x_(i+n-1) = a_n,
+    $
+    where $a_1a_2 dots.c a_n$ are the first $n$ digits of the binary expansion of $k/(2^n)$. Thus, $x$ is normal in base $2$ if and only if for every $n$ and $k$, 
+    $
+    lim_(l -> oo) 1/l sum_(i=0)^(l-1) chi_(cal(D)_(n,k)) (T^i (x)) = m(cal(D)_(n,k)) = 1/(2^n).
+    $
+    By Birkhoff's ergodic theorem, for almost every $x in [0, 1)$, the limit on the left-hand side equals the right-hand side. Therefore, almost every number in $[0, 1)$ is normal in base $2$.
+    $qed$
+]
+
+== Weyl's equidistribution theorem
+
+#lemma[
+    Let $T$ be measure-preserving and let $A, B, E, F$ be measurable sets such that $A subset.eq E$, $B subset.eq F$. Then for every $n >= 0$,
+    $
+    mu(T^(-n)(A) inter B) >= mu(T^(-n)(E) inter F) - mu(E without A) - mu(F without B).
+    $
+]
+#proof[
+    Note that
+    $
+    T^(-n)(E) inter F subset.eq (T^(-n)(A) inter B) union (T^(-n)(E) without T^(-n)(A)) union (F without B),
+    $
+    so
+    $
+    mu(T^(-n)(E) inter F) &<= mu(T^(-n)(A) inter B) + mu(T^(-n)(E) without T^(-n)(A)) + mu(F without B) \
+    &= mu(T^(-n)(A) inter B) + mu(E without A) + mu(F without B).
+    $
+    $qed$
+]
+
+#proposition[
+    Let $T: [0, 1) -> [0, 1)$ be defined by
+    $
+    T(x) = (x + alpha) mod 1,
+    $
+    where $alpha$ is irrational. Then $T$ is measure-preserving and ergodic with respect to the Lebesgue measure on $[0, 1)$.
+]
+#proof[
+    Clearly $T$ is measure-preserving. Let $E, F$ be any measurable sets with positive measure. Exists dyadic intervals $I, J$ such that
+    $
+    m(E inter I) > 3/4 m(I), quad m(F inter J) > 3/4 m(J).
+    $
+    By dividing the intervals, we may assume that $m(I) = m(J)$. Write $I = [a, b)$ and $J = [c, d)$. WLOG assume that $a <= c$. Recall that the orbit of $b$ under $T$ is dense in $[0, 1)$, so there exists $n >= 0$ such that
+    $
+    d - (d-c)/4 < T^n (b) < d.
+    $
+    Since $T$ is an isometry, $T^n (I) = [T^n (a), T^n (b))$, so
+    $
+    m(T^n (I) inter J) = m([T^n (a), T^n (b)) inter [c, d)) >= m([c, d - (d-c)/4)) = 3/4 m(J)]). 
+    $
+    By the previous lemma, taking $A = E inter I$, $B = F inter J$, $E = T^n (I)$, $F = J$, we have
+    $
+    mu(T^(-n)(A) inter B) &>= mu(T^(-n)(E) inter F) - mu(E without A) - mu(F without B) \
+    &> 3/4 m(J) - 1/4 m(I) - 1/4 m(J) > 0.
+    $
+
+    We've concluded that if $m(E), m(F) > 0$, then there exists $n >= 1$ such that $m(T^n (E) inter F) > 0$. Now let $E$ be such that $E = T^(-1)(E)$. Set $F = E^c$. If $m(E), m(F) > 0$, then there exists $n >= 1$ such that $m(T^n (E) inter F) > 0$, contradicting the fact that $T^n (E) = E$. Therefore, $m(E) = 0$ or $1$, so $T$ is ergodic.
+    $qed$
+]
+
+#corollary[
+    For every interval $I subset.eq [0, 1)$, 
+    $
+    lim_(n -> oo) 1/n sum_(i=0)^(n-1) chi_I (T^i (x)) = m(I)
+    $
+    for every $x in [0, 1)$. 
+]
+#proof[
+    By Birkhoff's ergodic theorem, given an interval $I$, exists a Lebesgue measure zero set $Z_I$ such that the above equation holds for every $x in [0, 1) without Z_I$. Consider the dyadic intervals. Since there are only countably many dyadic intervals, the union of the corresponding measure zero sets is still a measure zero set, in particular there exists $x in [0, 1)$ such that the above convergence holds for all dyadic intervals $J$. Let $I$ be an arbitrary interval and $epsilon > 0$. We can find two (disjoint unions of) dyadic intervals $J, K$ such that $J subset.eq I subset.eq K$ and $m(J) - m(K) < epsilon$. Then
+    $
+    sum_(i=0)^(n-1) chi_(J) (T^i (x)) <= sum_(i=0)^(n-1) chi_I (T^i (x)) <= sum_(i=0)^(n-1) chi_(K) (T^i (x)), \
+    => m(J) <= liminf_(n -> oo) 1/n sum_(i=0)^(n-1) chi_I (T^i (x)) <= limsup_(n -> oo) 1/n sum_(i=0)^(n-1) chi_I (T^i (x)) <= m(K), \
+    => lim_(n -> oo) 1/n sum_(i=0)^(n-1) chi_I (T^i (x)) = m(I).
+    $
+    Finally, for any given interval $I$ and any $y in [0, 1)$, exists an interval $I'$ such that $m(I') = m(I)$ and
+    $
+    T^i (y) in I iff T^i (x) in I'
+    $
+    for every $i >= 0$, so
+    $
+    lim_(n -> oo) 1/n sum_(i=0)^(n-1) chi_I (T^i (y)) = lim_(n -> oo) 1/n sum_(i=0)^(n-1) chi_(I') (T^i (x)) = m(I') = m(I).
+    $
+    $qed$
+]
+
+== Mean Ergodic Theorem
+
+#theorem(name: "von Neumann")[
+    Let $T$ be an isometry on a Hilbert space $X$, and let $P$ be the orthogonal projection onto the $T$-invariant subspace $Y := {x in X : T x = x}$. Let
+    $
+    A_n = 1/n (I + T + dots.c + T^(n-1)),
+    $
+    then $A_n(x) -> P(x)$ in norm for every $x in X$.
+]
+#proof[
+    Consider the subspaces
+    $
+    Y_* = {x in X : T^* x = x}, quad Z = {x - T x : x in X}.
+    $
+    We claim that $Y = Y_*$ and $Y perp overline(Z)$. Since $T$ is an isometry, $T^* T = I$, so if $x in Y$, then
+    $
+    T^* x = T^* T x = x,
+    $
+    so $Y subset.eq Y_*$. Conversely, if $x in Y_*$, then
+    $
+    chevron.l x , T^* x - x chevron.r = 0 => chevron.l T x , x chevron.r = chevron.l x , x chevron.r = norm(x)^2,
+    $
+    so $T x = x$, and hence $Y_* subset.eq Y$. If $x in overline(Z)^perp$, then
+    $
+    & chevron.l x, y - T y chevron.r = 0 forall y in X \
+    ==> & chevron.l x - T^* x, y chevron.r = 0 forall y in X \
+    ==> & x = T^* x => x in Y_* = Y.
+    $
+
+    Let $x in X$. We can write $x = y + z$ for some $y in Y$ and $z in overline(Z)$. Fix $epsilon > 0$. Let $z' in Z$ be such that $norm(z - z') < epsilon$. Write
+    $
+    A_n (x) = A_n (y) + A_n (z') + A_n (z - z').
+    $
+    Since $T y = y$, $A_n (y) = y = P(x)$. Since $z' in Z$, we can write $z' = v - T v$ for some $v in X$, so
+    $
+    A_n (z') = 1/n sum_(k=0)^(n-1) (v - T v) = 1/n (v - T^n v),
+    $
+    and since $T$ is an isometry, $norm(A_n (z')) <= 2/n norm(v) -> 0$. Finally, $norm(A_n (z - z')) <= norm(z - z') < epsilon$. Therefore, $A_n (x) -> P(x)$ in norm.
+    $qed$
+]
+
+#remark[
+    Take $X = L^2(Omega, mu)$ and $Phi: Omega -> Omega$ is measure-preserving. Define $T: X -> X$ by
+    $
+    T f(x) = f(Phi(x)),
+    $
+    then $T$ is an isometry. The mean ergodic theorem implies that
+    $
+    1/n sum_(k=0)^(n-1) f(Phi^k (x)) -> P(f)(x)
+    $
+    in $L^2$ norm. If $Phi$ is ergodic, then the only $T$-invariant functions are constant functions, so $P(f)$ is the constant function with value $integral f d mu$, so this can be viewed as a generalization of Birkhoff's ergodic theorem in $L^2$ norm.
+]
